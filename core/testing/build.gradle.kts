@@ -22,12 +22,12 @@ android {
 }
 
 dependencies {
-    implementation("javax.inject:javax.inject:1")
+    implementation(libs.javax.inject)
     api(project(":core:domain"))
     api(libs.junit)
     api(libs.androidx.junit)
     api(libs.androidx.espresso.core)
     api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.ui.test.junit4)
-    debugApi(libs.androidx.ui.test.manifest)
+    api(libs.androidx.compose.testing.junit4)
+    debugApi(libs.androidx.compose.testing.manifest)
 }
