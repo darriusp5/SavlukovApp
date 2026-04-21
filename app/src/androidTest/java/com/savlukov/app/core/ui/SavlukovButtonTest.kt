@@ -1,4 +1,4 @@
-package com.savlukov.app.presentation.common
+package com.savlukov.app.core.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.ui.test.*

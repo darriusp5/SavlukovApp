@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.savlukov.app.domain.model.Story
 import com.savlukov.app.feature.stories.presentation.BrandStoriesBar
-import com.savlukov.app.presentation.common.SavlukovButton
+import com.savlukov.app.core.ui.SavlukovButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

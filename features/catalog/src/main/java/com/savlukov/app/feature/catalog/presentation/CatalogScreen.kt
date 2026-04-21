@@ -1,8 +1,5 @@
 package com.savlukov.app.feature.catalog.presentation
 
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,14 +19,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.savlukov.app.domain.model.Furniture
+
 import com.savlukov.app.core.ui.SavlukovCard
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun CatalogScreen(
     viewModel: CatalogViewModel,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -71,24 +66,19 @@ fun CatalogScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            items(state.products, key = { it.id }) { product ->
-                with(sharedTransitionScope) {
-                    ProductCard(
-                        product = product,
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        onClick = { onItemClick(product.id) }
-                    )
-                }
+            items(state.products) { product ->
+                ProductCard(
+                    product = product,
+                    onClick = { onItemClick(product.id) }
+                )
             }
         }
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedTransitionScope.ProductCard(
+fun ProductCard(
     product: Furniture,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     onClick: () -> Unit
 ) {
     SavlukovCard(
@@ -102,10 +92,6 @@ fun SharedTransitionScope.ProductCard(
                     .fillMaxWidth()
                     .aspectRatio(0.85f)
                     .background(Color.White)
-                    .sharedElement(
-                        rememberSharedContentState(key = "image-${product.id}"),
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )
             ) {
                 AsyncImage(
                     model = product.imageUrl,
@@ -140,17 +126,13 @@ fun SharedTransitionScope.ProductCard(
                     text = product.name,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.5.sp,
-                    modifier = Modifier.sharedBounds(
-                        rememberSharedContentState(key = "name-${product.id}"),
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )
+                    letterSpacing = 0.5.sp
                 )
                 
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = "Experience the Look",
+                    text = product.category.uppercase(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     letterSpacing = 1.sp
