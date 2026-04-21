@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.savlukov.app.domain.model.Story
 import com.savlukov.app.feature.stories.presentation.BrandStoriesBar
+import com.savlukov.app.presentation.common.SavlukovButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +25,8 @@ fun HomeScreen(
                     Text(
                         text = "SAVLUCOV",
                         style = MaterialTheme.typography.headlineMedium,
-                        letterSpacing = 4.sp
+                        letterSpacing = 8.sp,
+                        fontWeight = FontWeight.Light
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -43,31 +46,45 @@ fun HomeScreen(
                 onStoryClick = { story -> onStoryClick(story.id) }
             )
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(48.dp))
             
             // Hero Section
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 32.dp)
             ) {
                 Text(
-                    text = "Crafted for Generations.",
-                    style = MaterialTheme.typography.headlineLarge
+                    text = "CRAFTED FOR\nGENERATIONS.",
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        lineHeight = 48.sp,
+                        letterSpacing = (-1).sp
+                    )
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Text(
+                    text = "A legacy of Belarusian craftsmanship, reimagined for the modern home.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
             }
             
             Spacer(modifier = Modifier.weight(1f))
             
-            Button(
+            SavlukovButton(
                 onClick = onExploreCatalog,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp)
-                    .height(56.dp),
-                shape = MaterialTheme.shapes.extraSmall
+                    .padding(32.dp)
+                    .height(64.dp)
             ) {
-                Text(text = "Explore Collections")
+                Text(
+                    text = "EXPLORE COLLECTIONS",
+                    style = MaterialTheme.typography.labelLarge,
+                    letterSpacing = 2.sp
+                )
             }
         }
     }

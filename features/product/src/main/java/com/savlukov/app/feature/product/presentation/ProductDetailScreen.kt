@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 
+import com.savlukov.app.presentation.common.SavlukovButton
+
 @Composable
 fun ProductDetailScreen(
     id: String,
@@ -121,18 +123,13 @@ fun ProductDetailScreen(
             }
 
             // Floating Action Button (AR)
-            Button(
+            SavlukovButton(
                 onClick = { onARClick(product.arModelUrl) },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .padding(24.dp)
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                shape = RoundedCornerShape(0.dp)
+                    .height(64.dp)
             ) {
                 Text(
                     text = "VIEW IN YOUR ROOM (AR)",

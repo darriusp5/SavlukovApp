@@ -20,6 +20,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.savlukov.app.domain.model.Furniture
 
+import com.savlukov.app.presentation.common.SavlukovCard
+
 @Composable
 fun CatalogScreen(
     viewModel: CatalogViewModel,
@@ -37,20 +39,21 @@ fun CatalogScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 32.dp)
+                .padding(horizontal = 24.dp, vertical = 40.dp)
         ) {
             Text(
-                text = "SAVLOOKOV",
+                text = "SAVLUCOV",
                 style = MaterialTheme.typography.labelLarge,
-                letterSpacing = 4.sp,
+                letterSpacing = 6.sp,
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = "Collection 2026",
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontSize = 36.sp,
+                    letterSpacing = (-1).sp
                 )
             )
         }
@@ -78,54 +81,63 @@ fun ProductCard(
     product: Furniture,
     onClick: () -> Unit
 ) {
-    Column(
+    SavlukovCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(0.8f)
-                .background(Color.White)
-        ) {
-            AsyncImage(
-                model = product.imageUrl,
-                contentDescription = product.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            
-            // Exclusive badge
-            if (product.category == "Exclusive") {
-                Surface(
-                    color = Color(0xFF4A0E0E),
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(8.dp)
-                ) {
-                    Text(
-                        text = "EXCLUSIVE",
-                        color = Color.White,
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                    )
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(0.85f)
+                    .background(Color.White)
+            ) {
+                AsyncImage(
+                    model = product.imageUrl,
+                    contentDescription = product.name,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                
+                // Exclusive badge
+                if (product.category == "Exclusive") {
+                    Surface(
+                        color = Color(0xFF4A0E0E),
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            text = "EXCLUSIVE",
+                            color = Color.White,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            letterSpacing = 1.sp
+                        )
+                    }
                 }
             }
+            
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = product.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.5.sp
+                )
+                
+                Spacer(modifier = Modifier.height(4.dp))
+                
+                Text(
+                    text = product.category.uppercase(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    letterSpacing = 1.sp
+                )
+            }
         }
-        
-        Spacer(modifier = Modifier.height(12.dp))
-        
-        Text(
-            text = product.name,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
-        )
-        
-        Text(
-            text = product.category,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-        )
     }
 }

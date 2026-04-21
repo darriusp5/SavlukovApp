@@ -1,5 +1,6 @@
 package com.savlukov.app.feature.catalog.presentation
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.savlukov.app.domain.model.Furniture
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Immutable
 data class CatalogState(
     val products: List<Furniture> = emptyList(),
     val isLoading: Boolean = false,

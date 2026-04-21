@@ -26,6 +26,7 @@ fun BrandStoriesBar(
     onStoryClick: (Story) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val storiesList = remember(stories) { stories }
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
@@ -33,7 +34,10 @@ fun BrandStoriesBar(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(stories) { story ->
+        items(
+            items = storiesList,
+            key = { it.id }
+        ) { story ->
             StoryAvatar(
                 story = story,
                 onClick = { onStoryClick(story) }
