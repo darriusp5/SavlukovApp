@@ -2,17 +2,14 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "com.savlukov.app.feature.catalog"
+    namespace = "com.savlukov.app.core.ui"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -28,19 +25,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:domain"))
-    implementation(project(":core:ui"))
-    
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
     implementation(libs.coil.compose)
 }

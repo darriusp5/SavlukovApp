@@ -1,4 +1,4 @@
-package com.savlukov.app.presentation.common
+package com.savlukov.app.core.ui
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions

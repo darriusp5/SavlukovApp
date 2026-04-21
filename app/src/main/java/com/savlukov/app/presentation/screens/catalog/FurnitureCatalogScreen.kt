@@ -1,5 +1,8 @@
 package com.savlukov.app.presentation.screens.catalog
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.savlukov.app.domain.model.Furniture
 import com.savlukov.app.presentation.FurnitureViewModel
-import com.savlukov.app.presentation.common.SavlukovCard
+import com.savlukov.app.core.ui.SavlukovCard
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun FurnitureCatalogScreen(
     viewModel: FurnitureViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onItemClick: (String) -> Unit
 ) {
     val state by viewModel.catalogState.collectAsState()
@@ -67,20 +72,25 @@ fun FurnitureCatalogScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(state.furniture) { item ->
-                    FurnitureItem(
-                        furniture = item,
-                        onClick = { onItemClick(item.id) }
-                    )
+                items(state.furniture, key = { it.id }) { item ->
+                    with(sharedTransitionScope) {
+                        FurnitureItem(
+                            furniture = item,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            onClick = { onItemClick(item.id) }
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun FurnitureItem(
+fun SharedTransitionScope.FurnitureItem(
     furniture: Furniture,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onClick: () -> Unit
 ) {
     SavlukovCard(
@@ -94,7 +104,11 @@ fun FurnitureItem(
                 contentDescription = furniture.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp),
+                    .height(180.dp)
+                    .sharedElement(
+                        rememberSharedContentState(key = "image-${furniture.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    ),
                 contentScale = ContentScale.Crop
             )
             
@@ -104,17 +118,19 @@ fun FurnitureItem(
                 Text(
                     text = furniture.name,
                     style = MaterialTheme.typography.headlineMedium,
-                    maxLines = 1
+                    maxLines = 1,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "name-${furniture.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
                 )
                 
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = "${furniture.price} BYN",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = MaterialTheme.colorScheme.secondary
+                    text = "Experience the Look",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f)
                 )
             }
         }
