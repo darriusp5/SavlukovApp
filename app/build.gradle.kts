@@ -51,6 +51,9 @@ android {
 }
 
 dependencies {
+    implementation("javax.inject:javax.inject:1")
+    implementation("javax.inject:javax.inject:1")
+    implementation("javax.inject:javax.inject:1")
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":core:ui"))

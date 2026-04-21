@@ -25,6 +25,9 @@ android {
 }
 
 dependencies {
+    implementation("javax.inject:javax.inject:1")
+    implementation("javax.inject:javax.inject:1")
+    implementation("javax.inject:javax.inject:1")
     api(project(":core:domain"))
     api(libs.junit)
     api(libs.androidx.junit)
