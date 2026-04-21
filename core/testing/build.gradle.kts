@@ -10,28 +10,26 @@ android {
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        compose = true
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
-    api(libs.androidx.ui.test.junit4)
-    api(libs.androidx.ui.test.manifest)
+    api(project(":core:domain"))
     api(libs.junit)
-    api(libs.mockk)
-    api(libs.kotlinx.coroutines.test)
+    api(libs.androidx.junit)
+    api(libs.androidx.espresso.core)
     api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.ui)
-    api(libs.androidx.material3)
-    
-    // Theme dependencies if needed
-    implementation(project(":core:domain"))
+    api(libs.androidx.ui.test.junit4)
+    debugApi(libs.androidx.ui.test.manifest)
 }
