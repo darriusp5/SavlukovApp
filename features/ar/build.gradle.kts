@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.savlukov.app.feature.ar"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -29,6 +29,7 @@ android {
 dependencies {
     implementation("javax.inject:javax.inject:1")
     implementation(project(":core:domain"))
+    implementation(project(":core:ui"))
     
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
@@ -42,4 +43,5 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.coil.compose)
+    implementation(libs.sceneview.compose)
 }

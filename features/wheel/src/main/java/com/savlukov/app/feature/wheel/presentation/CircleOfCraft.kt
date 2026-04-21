@@ -38,6 +38,13 @@ fun CircleOfCraft(
     val animatableAngle = remember { Animatable(0f) }
     var isSpinning by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    
+    // Cache colors to avoid Composable calls inside DrawScope
+    val bgColor = MaterialTheme.colorScheme.background
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val secondaryColor = MaterialTheme.colorScheme.secondary
+    val separatorColor = primaryColor.copy(alpha = 0.1f)
 
     Box(
         modifier = modifier
@@ -65,7 +72,7 @@ fun CircleOfCraft(
                     
                     // Draw segment background
                     drawArc(
-                        color = if (index % 2 == 0) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.surface,
+                        color = if (index % 2 == 0) bgColor else surfaceColor,
                         startAngle = startAngle,
                         sweepAngle = segmentAngle,
                         useCenter = true,
@@ -80,7 +87,7 @@ fun CircleOfCraft(
                         center.y + radius * sin(lineAngle)
                     )
                     drawLine(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                        color = separatorColor,
                         start = center,
                         end = lineEnd,
                         strokeWidth = 1.dp.toPx()
@@ -111,7 +118,7 @@ fun CircleOfCraft(
 
                 // Outer Ring
                 drawCircle(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = primaryColor,
                     radius = radius,
                     style = Stroke(width = 4.dp.toPx())
                 )
@@ -122,14 +129,14 @@ fun CircleOfCraft(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(MaterialTheme.colorScheme.primary, CircleShape)
-                .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape),
+                .background(primaryColor, CircleShape)
+                .border(2.dp, secondaryColor, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Box(
                 modifier = Modifier
                     .size(12.dp)
-                    .background(MaterialTheme.colorScheme.secondary, CircleShape)
+                    .background(secondaryColor, CircleShape)
             )
         }
 
@@ -148,7 +155,7 @@ fun CircleOfCraft(
                 lineTo(center.x + 15.dp.toPx(), center.y - radius - 20.dp.toPx())
                 close()
             }
-            drawPath(path, MaterialTheme.colorScheme.secondary)
+            drawPath(path, secondaryColor)
         }
 
         // Spin Button / Interaction

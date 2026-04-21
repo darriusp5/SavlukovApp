@@ -2,8 +2,11 @@ package com.savlukov.app.data.mapper
 
 import com.savlukov.app.data.local.FabricEntity
 import com.savlukov.app.data.local.FurnitureEntity
+import com.savlukov.app.data.local.StoryEntity
 import com.savlukov.app.domain.model.Fabric
 import com.savlukov.app.domain.model.Furniture
+import com.savlukov.app.domain.model.Story
+import com.savlukov.app.domain.model.StorySegment
 
 fun FurnitureEntity.toDomain() = Furniture(
     id = id,
@@ -46,7 +49,14 @@ fun StoryEntity.toDomain() = Story(
     date = date,
     isWatched = isWatched,
     durationSeconds = durationSeconds,
-    targetProductId = targetProductId
+    segments = listOf(
+        StorySegment(
+            id = "initial_$id",
+            type = "IMAGE",
+            contentUrl = imageUrl,
+            targetProductId = targetProductId
+        )
+    )
 )
 
 fun Story.toEntity() = StoryEntity(
@@ -56,5 +66,5 @@ fun Story.toEntity() = StoryEntity(
     date = date,
     isWatched = isWatched,
     durationSeconds = durationSeconds,
-    targetProductId = targetProductId
+    targetProductId = segments.firstOrNull()?.targetProductId
 )

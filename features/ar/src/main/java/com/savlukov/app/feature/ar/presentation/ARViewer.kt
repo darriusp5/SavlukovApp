@@ -4,12 +4,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.align
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,7 +36,7 @@ fun ARViewer(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isModelLoaded by remember { mutableStateOf(false) }
     
-    // Demo fabrics - in production these would come from the ViewModel/Repository
+    // Demo fabrics
     val fabrics = remember {
         listOf(
             Fabric("1", "Royal Velvet - Night", "thumb1", colorHex = "#1A1A1A"),
@@ -60,14 +59,11 @@ fun ARViewer(
         }
     }
 
-    // High-Performance Material Swap logic
-    // We react to changes in uiState.activeMaterials and apply them directly to the model instance
     LaunchedEffect(uiState.activeMaterials, isModelLoaded) {
         if (isModelLoaded) {
             val modelInstance = modelNode.modelInstance ?: return@LaunchedEffect
             
             uiState.activeMaterials.forEach { (materialKey, material) ->
-                // Optimized targeting: Search for materials by name or apply to all if key is "all_upholstery"
                 modelInstance.materialInstances.forEach { materialInstance ->
                     val name = materialInstance.name
                     if (materialKey == "all" || name?.contains(materialKey, ignoreCase = true) == true) {
@@ -84,12 +80,10 @@ fun ARViewer(
             nodes = remember { listOf(modelNode) },
             planeRenderer = true,
             onCreate = { arSceneView ->
-                // Enable high-quality lighting for "Quiet Luxury" feel
                 arSceneView.lightEstimationMode = io.google.ar.core.Config.LightEstimationMode.ENVIRONMENTAL_HDR
             }
         )
 
-        // HUD: Close Button
         IconButton(
             onClick = onClose,
             modifier = Modifier
@@ -104,7 +98,6 @@ fun ARViewer(
             Icon(Icons.Default.Close, contentDescription = "Close AR")
         }
 
-        // HUD: Snapshot Button
         IconButton(
             onClick = { /* Implement snapshot capture */ },
             modifier = Modifier
@@ -117,18 +110,17 @@ fun ARViewer(
             )
         ) {
             Icon(
-                Icons.Default.PhotoCamera, 
+                Icons.Default.AddAPhoto, 
                 contentDescription = "Capture Moment",
                 modifier = Modifier.size(32.dp)
             )
         }
 
-        // Optimized Fabric Selector
         FabricSelector(
             fabrics = fabrics,
             onFabricSelected = { fabric ->
                 viewModel.updateMaterial(
-                    materialKey = "all", // In production, this might target specific slots
+                    materialKey = "all",
                     material = FurnitureMaterial(
                         id = fabric.id,
                         name = fabric.name,
@@ -143,10 +135,6 @@ fun ARViewer(
     }
 }
 
-/**
- * Low-level utility to apply material parameters to a Filament MaterialInstance.
- * Optimized to prevent frame drops.
- */
 private fun applyMaterialToInstance(
     instance: io.github.sceneview.material.MaterialInstance,
     material: FurnitureMaterial
@@ -161,8 +149,6 @@ private fun applyMaterialToInstance(
             color.alpha
         )
         
-        // Adjust physical properties for different materials if needed
-        // For example, more metallic for silk, more rough for velvet
         if (material.name.contains("Silk", ignoreCase = true)) {
             instance.setParameter("roughnessFactor", 0.2f)
             instance.setParameter("metallicFactor", 0.1f)
