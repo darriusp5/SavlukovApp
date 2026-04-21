@@ -7,7 +7,7 @@ import com.savlukov.app.domain.model.Furniture
 import com.savlukov.app.domain.use_case.GetCatalogUseCase
 import com.savlukov.app.domain.use_case.GetFurnitureDetailUseCase
 import com.savlukov.app.domain.use_case.GetFabricsUseCase
-import com.savlukov.app.util.Resource
+import com.savlukov.app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

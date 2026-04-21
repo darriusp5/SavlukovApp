@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.savlukov.app.domain.model.Furniture
 import com.savlukov.app.domain.usecase.GetFurnitureDetailUseCase
 import com.savlukov.app.domain.usecase.GetFurnitureUseCase
-import com.savlukov.app.util.Resource
+import com.savlukov.app.domain.util.Resource
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

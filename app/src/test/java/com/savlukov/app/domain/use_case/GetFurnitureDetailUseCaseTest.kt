@@ -2,7 +2,7 @@ package com.savlukov.app.domain.use_case
 
 import com.savlukov.app.domain.model.Furniture
 import com.savlukov.app.domain.repository.FurnitureRepository
-import com.savlukov.app.util.Resource
+import com.savlukov.app.domain.util.Resource
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf

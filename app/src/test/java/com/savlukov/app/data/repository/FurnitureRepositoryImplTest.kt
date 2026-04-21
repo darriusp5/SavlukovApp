@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.savlukov.app.data.local.FurnitureDao
 import com.savlukov.app.data.local.FurnitureEntity
 import com.savlukov.app.data.remote.FurnitureApi
-import com.savlukov.app.util.Resource
+import com.savlukov.app.domain.util.Resource
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
