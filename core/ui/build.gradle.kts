@@ -21,6 +21,7 @@ dependencies {
     implementation("javax.inject:javax.inject:1")
     implementation("javax.inject:javax.inject:1")
     implementation("javax.inject:javax.inject:1")
+    implementation("javax.inject:javax.inject:1")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
