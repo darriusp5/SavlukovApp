@@ -43,15 +43,13 @@ fun StoryViewer(
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        // 1. Content Layer
         AsyncImage(
-            model = currentSegment.imageUrl,
+            model = currentSegment.contentUrl,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
-        // 2. Visual Overlays
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,30 +65,7 @@ fun StoryViewer(
                 )
         )
 
-        // 3. Navigation Gesture Layer (Restricted Height)
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 120.dp) // Protection for bottom CTA
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onPress = {
-                            viewModel.pauseStory()
-                            tryAwaitRelease()
-                            viewModel.resumeStory()
-                        },
-                        onTap = { offset ->
-                            if (offset.x < size.width / 3) {
-                                viewModel.previousStory()
-                            } else {
-                                viewModel.nextStory()
-                            }
-                        }
-                    )
-                }
-        )
-
-        // 4. Progress Bars
+        // Progress Bars
         StoryProgressBar(
             segmentsCount = story.segments.size,
             currentIndex = state.currentSegmentIndex,
@@ -102,7 +77,7 @@ fun StoryViewer(
                 .statusBarsPadding()
         )
 
-        // 5. HUD: Header
+        // Header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -131,8 +106,9 @@ fun StoryViewer(
             }
         }
 
-        // 6. CTA: Experience the Look
-        currentSegment.linkedProductId?.let { productId ->
+        // CTA
+        if (currentSegment.targetProductId != null) {
+            val productId = currentSegment.targetProductId
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -180,13 +156,11 @@ fun StoryProgressBar(
                 if (index < currentIndex) {
                     progress.snapTo(1f)
                 } else if (index == currentIndex) {
-                    if (isPaused) {
-                        progress.stop()
-                    } else {
+                    if (!isPaused) {
                         progress.animateTo(
                             targetValue = 1f,
                             animationSpec = tween(
-                                durationMillis = (5000 * (1f - progress.value)).toInt(),
+                                durationMillis = 5000,
                                 easing = LinearEasing
                             )
                         )

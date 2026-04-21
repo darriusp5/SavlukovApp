@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.savlukov.app.feature.navigation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
