@@ -1,5 +1,8 @@
 package com.savlukov.app.feature.product.presentation
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,12 +23,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 
-import com.savlukov.app.presentation.common.SavlukovButton
+import com.savlukov.app.core.ui.SavlukovButton
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ProductDetailScreen(
     id: String,
     viewModel: ProductViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onBackClick: () -> Unit,
     onARClick: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -38,125 +44,135 @@ fun ProductDetailScreen(
 
     val product = state.product
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        if (state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else if (product != null) {
-            // Content
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                // Immersive Image Header
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(450.dp)
-                ) {
-                    AsyncImage(
-                        model = product.imageUrl,
-                        contentDescription = product.name,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-
-                // Product Info
+    with(sharedTransitionScope) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (product != null) {
+                // Content
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    // Immersive Image Header
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(450.dp)
+                            .sharedElement(
+                                rememberSharedContentState(key = "image-${product.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )
                     ) {
-                        Text(
-                            text = product.category.uppercase(),
-                            style = MaterialTheme.typography.labelMedium,
-                            letterSpacing = 2.sp,
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                        AsyncImage(
+                            model = product.imageUrl,
+                            contentDescription = product.name,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    // Product Info
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = product.category.uppercase(),
+                                style = MaterialTheme.typography.labelMedium,
+                                letterSpacing = 2.sp,
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.FavoriteBorder,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
 
-                    Text(
-                        text = product.name,
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 28.sp
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = product.name,
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 28.sp
+                            ),
+                            modifier = Modifier.sharedBounds(
+                                rememberSharedContentState(key = "name-${product.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )
                         )
-                    )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = product.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        lineHeight = 26.sp,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
-                    )
+                        Text(
+                            text = product.description,
+                            style = MaterialTheme.typography.bodyLarge,
+                            lineHeight = 26.sp,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
+                        )
 
-                    Spacer(modifier = Modifier.height(32.dp))
-                    
-                    HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
-                    SpecificationRow("Material", "Premium Velvet")
-                    SpecificationRow("Dimensions", "220 x 95 x 85 cm")
-                    SpecificationRow("Designer", "Savlukov Studio")
-                    
-                    Spacer(modifier = Modifier.height(100.dp))
+                        Spacer(modifier = Modifier.height(32.dp))
+                        
+                        HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        SpecificationRow("Material", "Premium Velvet")
+                        SpecificationRow("Dimensions", "220 x 95 x 85 cm")
+                        SpecificationRow("Designer", "Savlukov Studio")
+                        
+                        Spacer(modifier = Modifier.height(100.dp))
+                    }
                 }
-            }
 
-            // Floating Action Button (AR)
-            SavlukovButton(
-                onClick = { onARClick(product.arModelUrl) },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(24.dp)
-                    .height(64.dp)
-            ) {
+                // Floating Action Button (AR)
+                SavlukovButton(
+                    onClick = { onARClick(product.arModelUrl) },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(24.dp)
+                        .height(64.dp)
+                ) {
+                    Text(
+                        text = "VIEW IN YOUR ROOM (AR)",
+                        style = MaterialTheme.typography.labelLarge,
+                        letterSpacing = 2.sp
+                    )
+                }
+            } else if (state.error != null) {
                 Text(
-                    text = "VIEW IN YOUR ROOM (AR)",
-                    style = MaterialTheme.typography.labelLarge,
-                    letterSpacing = 2.sp
+                    text = state.error ?: "Error loading product",
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colorScheme.error
                 )
             }
-        } else if (state.error != null) {
-            Text(
-                text = state.error ?: "Error loading product",
-                modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colorScheme.error
-            )
-        }
 
-        // Top Navigation
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 48.dp, start = 16.dp, end = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(24.dp))
+            // Top Navigation
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 48.dp, start = 16.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                IconButton(
+                    onClick = onBackClick,
+                    modifier = Modifier.background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(24.dp))
+                ) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ rootProject.name = "SavlukovApp"
 include(":app")
 include(":core:domain")
 include(":core:data")
+include(":core:ui")
 include(":core:testing")
 include(":features:home")
 include(":features:catalog")
