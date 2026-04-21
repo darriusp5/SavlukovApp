@@ -3,11 +3,11 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
-    kotlin("kapt")
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "com.savlukov.app.feature.$(basename $dir)"
+    namespace = "com.savlukov.app.feature.wheel"
     compileSdk = 34
 
     defaultConfig {
