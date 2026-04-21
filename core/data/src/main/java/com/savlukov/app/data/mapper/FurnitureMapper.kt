@@ -52,7 +52,6 @@ fun StoryEntity.toDomain() = Story(
     segments = listOf(
         StorySegment(
             id = "initial_$id",
-            type = "IMAGE",
             contentUrl = imageUrl,
             targetProductId = targetProductId
         )

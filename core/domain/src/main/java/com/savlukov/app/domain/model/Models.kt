@@ -30,6 +30,7 @@ data class Story(
     val imageUrl: String,
     val date: String,
     val isWatched: Boolean = false,
+    val durationSeconds: Int = 5,
     val segments: List<StorySegment> = emptyList()
 )
 
