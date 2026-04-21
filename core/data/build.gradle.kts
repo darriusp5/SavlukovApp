@@ -19,12 +19,14 @@ android {
 }
 
 dependencies {
-    implementation("javax.inject:javax.inject:1")
+    implementation(libs.javax.inject)
     implementation(project(":core:domain"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.work.runtime)
+    
+    implementation(libs.kotlinx.coroutines.android)
     
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
