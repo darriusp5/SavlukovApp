@@ -27,12 +27,12 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     
-    implementation(libs.androidx.core-ktx)
+    implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel-ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     
     implementation(libs.kotlinx.coroutines.android)
     
