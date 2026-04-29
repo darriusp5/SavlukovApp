@@ -1,0 +1,74 @@
+categories:
+  - id: "1"
+    name: "Диваны"
+    parentId: null
+  - id: "2"
+    name: "Прямые диваны"
+    parentId: "1"
+  - id: "3"
+    name: "Угловые диваны"
+    parentId: "1"
+  - id: "4"
+    name: "Модульные диваны"
+    parentId: "1"
+  - id: "5"
+    name: "Кресла"
+    parentId: null
+  - id: "6"
+    name: "Кресла прямые"
+    parentId: "5"
+  - id: "7"
+    name: "Кресла угловые"
+    parentId: "5"
+
+products:
+  - id: "1"
+    name: "Диван прямой классический"
+    description: "Роскошный диван в классическом стиле с мягкой обивкой и золотистыми акцентами."
+    category: "Прямые диваны"
+    categoryId: "2"
+    imageUrl: "https://example.com/sofa1.jpg"
+    arModelUrl: "https://example.com/sofa1.glb"
+    price: 1500.0
+    oldPrice: 1800.0
+    discountPercent: 17
+  - id: "2"
+    name: "Диван угловой модульный"
+    description: "Современный угловой диван с модульной конструкцией для максимального комфорта."
+    category: "Угловые диваны"
+    categoryId: "3"
+    imageUrl: "https://example.com/sofa2.jpg"
+    arModelUrl: "https://example.com/sofa2.glb"
+    price: 2200.0
+    oldPrice: null
+    discountPercent: null
+  - id: "3"
+    name: "Кресло классическое"
+    description: "Элегантное кресло с мягкими подлокотниками и золотистой отделкой."
+    category: "Кресла прямые"
+    categoryId: "6"
+    imageUrl: "https://example.com/chair1.jpg"
+    arModelUrl: "https://example.com/chair1.glb"
+    price: 800.0
+    oldPrice: 900.0
+    discountPercent: 11
+  - id: "4"
+    name: "Диван модульный премиум"
+    description: "Премиум диван с модульной системой, идеальный для больших помещений."
+    category: "Модульные диваны"
+    categoryId: "4"
+    imageUrl: "https://example.com/sofa3.jpg"
+    arModelUrl: "https://example.com/sofa3.glb"
+    price: 3500.0
+    oldPrice: null
+    discountPercent: null
+  - id: "5"
+    name: "Кресло угловое релаксационное"
+    description: "Удобное угловое кресло для отдыха с анатомической поддержкой."
+    category: "Кресла угловые"
+    categoryId: "7"
+    imageUrl: "https://example.com/chair2.jpg"
+    arModelUrl: "https://example.com/chair2.glb"
+    price: 1200.0
+    oldPrice: 1300.0
+    discountPercent: 8

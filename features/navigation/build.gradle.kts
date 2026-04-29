@@ -1,0 +1,53 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.kapt)
+}
+
+android {
+    namespace = "com.savlukov.app.feature.navigation"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    implementation("javax.inject:javax.inject:1")
+    implementation(project(":core:domain"))
+    
+    implementation(libs.androidx.core.ktx)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+    implementation(libs.coil.compose)
+
+    implementation(project(":features:stories"))
+    implementation(project(":features:catalog"))
+    implementation(project(":features:product"))
+    implementation(project(":features:home"))
+    implementation(project(":features:ar"))
+    implementation(project(":features:about"))
+    implementation(project(":features:delivery"))
+    implementation(project(":features:search"))
+}
