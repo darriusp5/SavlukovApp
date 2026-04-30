@@ -2,10 +2,14 @@ package com.savlukov.app.data.di
 
 import android.content.Context
 import com.savlukov.app.data.local.FavoriteDao
+import com.savlukov.app.data.local.StoryDao
+import com.savlukov.app.data.remote.InstagramApi
+import com.savlukov.app.data.remote.StoriesApi
 import com.savlukov.app.data.repository.MockFurnitureRepository
 import com.savlukov.app.data.repository.MockLoyaltyRepository
 import com.savlukov.app.data.repository.MockStoriesRepository
 import com.savlukov.app.data.repository.SignalRepositoryImpl
+import com.savlukov.app.data.repository.StoriesRepositoryImpl
 import com.savlukov.app.domain.repository.FurnitureRepository
 import com.savlukov.app.domain.repository.LoyaltyRepository
 import com.savlukov.app.domain.repository.StoriesRepository
@@ -42,5 +46,10 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSignalRepository(): SignalRepository = SignalRepositoryImpl()
-}
+    fun provideStoriesRepository(
+        api: StoriesApi,
+        instagramApi: InstagramApi,
+        dao: StoryDao
+    ): StoriesRepository {
+        return StoriesRepositoryImpl(api, instagramApi, dao)
+    }

@@ -57,13 +57,14 @@ data class Fabric(
 data class Story(
     val id: String,
     val title: String,
-    val brandName: String = "Savlukov",
-    val brandLogoUrl: String = "",
     val imageUrl: String,
-    val date: String,
-    val isWatched: Boolean = false,
-    val durationSeconds: Int = 5,
-    val segments: List<StorySegment> = emptyList()
+    val videoUrl: String? = null,
+    val isVideo: Boolean = false,
+    val duration: Long = 5000L,
+    val createdAt: String = "",
+    val isActive: Boolean = true,
+    val permalink: String? = null, // Instagram permalink
+    val source: String = "local" // "instagram" or "local"
 )
 
 @Immutable

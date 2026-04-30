@@ -1,6 +1,7 @@
 package com.savlukov.app.data.di
 
 import com.savlukov.app.data.remote.FurnitureApi
+import com.savlukov.app.data.remote.InstagramApi
 import com.savlukov.app.data.remote.LoyaltyApi
 import com.savlukov.app.data.remote.StoriesApi
 import dagger.Module
@@ -40,5 +41,20 @@ object NetworkModule {
     @Singleton
     fun provideStoriesApi(retrofit: Retrofit): StoriesApi {
         return retrofit.create(StoriesApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInstagramRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://graph.instagram.com/v18.0/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideInstagramApi(instagramRetrofit: Retrofit): InstagramApi {
+        return instagramRetrofit.create(InstagramApi::class.java)
     }
 }
