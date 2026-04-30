@@ -42,10 +42,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideStoriesRepository(): StoriesRepository = MockStoriesRepository()
-
-    @Provides
-    @Singleton
     fun provideStoriesRepository(
         api: StoriesApi,
         instagramApi: InstagramApi,
@@ -53,3 +49,4 @@ object RepositoryModule {
     ): StoriesRepository {
         return StoriesRepositoryImpl(api, instagramApi, dao)
     }
+}
